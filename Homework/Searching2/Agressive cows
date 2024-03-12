@@ -1,0 +1,38 @@
+class Solution {
+public:
+    bool isFeasible(int dist, int totalStalls, int cows, vector<int> &st)
+    {
+        int last = st[0];
+        int countCows = 1;
+        for(int i = 1; i < totalStalls; i++)
+        {
+            if(st[i] - last >= dist)
+            {
+                last = st[i];
+                countCows++;
+            }
+        }
+        if(countCows >= cows)
+            return true;
+        return false; 
+    }
+    
+    int solve(int totalStalls, int cows, vector<int> &st) 
+    {
+        sort(st.begin(), st.end());
+        int ans = -1;
+        int left = 1, right = st[totalStalls - 1] - st[0];
+        while(left <= right)
+        {
+            int mid = left + (right - left) / 2;
+            if(isFeasible(mid, totalStalls, cows, st))
+            {
+                ans = mid;
+                left = mid + 1;
+            }
+            else
+                right = mid - 1;
+        }
+        return ans;
+    }
+};
