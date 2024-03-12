@@ -1,0 +1,47 @@
+class Solution {
+public:
+    int first(vector<int> &array, int start, int end, int target)
+    {
+        int firstIndex = -1;
+        while (start <= end)
+        {
+            int mid = start + (end - start) / 2;
+            if (array[mid] == target)
+            {
+                firstIndex = mid;
+                end = mid - 1;
+            }
+            else if (array[mid] > target)
+                end = mid - 1;
+            else
+                start = mid + 1;  
+        }
+        return firstIndex;
+    }
+    
+    int second(vector<int> &array, int start, int end, int target)
+    {
+        int secondIndex = -1;
+        while (start <= end)
+        {
+            int mid = start + (end - start) / 2;
+            if (array[mid] == target)
+            {
+                secondIndex = mid;
+                start = mid + 1;
+            }
+            else if (array[mid] > target)
+                end = mid - 1;
+            else
+                start = mid + 1;  
+        }
+        return secondIndex;
+    }
+    
+    vector<int> searchRange(vector<int>& numbers, int target) 
+    {
+       int firstIndex = first(numbers, 0, numbers.size() - 1, target); 
+       int secondIndex = second(numbers, 0, numbers.size() - 1, target);
+       return {firstIndex, secondIndex};
+    }
+};
