@@ -1,0 +1,44 @@
+#include<bits/stdc++.h>
+
+using namespace std;
+
+bool solve(int m, vector<int> &a, int s, int size) {
+    int j = 0;
+    int sum = 0;
+    while (j < m) {
+        sum += a[j];
+        j++;
+    }
+    int i = 0;
+    while (j < size) {
+        if (sum > s)
+            return false;
+        sum += a[j++];
+        sum -= a[i++];
+    }
+    return true;
+}
+
+int main() {
+    int n, s;
+    cout << "Enter the number and limiter:";
+    cin >> n >> s;
+    vector<int> a;
+    for (int i = 0; i < n; i++) {
+        int e;
+        cin >> e;
+        a.push_back(e);
+    }
+    int l = 1, h = n;
+    int ans = 0;
+    while (l <= h) {
+        int m = l + (h - l) / 2;
+        if (solve(m, a, s, n)) {
+            ans = m;
+            l = m + 1;
+        } else
+            h = m - 1;
+    }
+    cout << "Maximum Subarray size:" << ans;
+    return 0;
+}
