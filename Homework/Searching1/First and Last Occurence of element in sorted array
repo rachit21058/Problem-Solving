@@ -1,47 +1,51 @@
 class Solution {
 public:
-    int first(vector<int> &array, int start, int end, int target)
-    {
-        int firstIndex = -1;
-        while (start <= end)
+    vector<int> searchRange(vector<int>& nums, int target) {
+    int n=nums.size();
+    int i,start=0,end=n-1;
+    int mid=start+(end-start)/2;
+    int left=-1; 
+    while(start<=end){       
+        if(target==nums[mid])
         {
-            int mid = start + (end - start) / 2;
-            if (array[mid] == target)
-            {
-                firstIndex = mid;
-                end = mid - 1;
-            }
-            else if (array[mid] > target)
-                end = mid - 1;
-            else
-                start = mid + 1;  
+            left=mid;
+            end=mid-1;
         }
-        return firstIndex;
+       else if(target>nums[mid])
+       {
+           start=mid+1;
+       }
+        else if(target<nums[mid])
+       {
+           end=mid-1;
+       }
+        mid=start+(end-start)/2;
     }
-    
-    int second(vector<int> &array, int start, int end, int target)
-    {
-        int secondIndex = -1;
-        while (start <= end)
+    start=0;
+    end=n-1;
+    mid=start+(end-start)/2;
+    int right=-1; 
+    int ans;
+    while(start<=end){       
+        if(target==nums[mid])
         {
-            int mid = start + (end - start) / 2;
-            if (array[mid] == target)
-            {
-                secondIndex = mid;
-                start = mid + 1;
-            }
-            else if (array[mid] > target)
-                end = mid - 1;
-            else
-                start = mid + 1;  
+            right=mid;
+            ans=mid;
+            end=mid+1;
+            if(ans==mid)
+            break;
+            
         }
-        return secondIndex;
+       else if(target>nums[mid])
+       {
+           start=mid+1;
+       }
+        else if(target<nums[mid])
+       {
+           end=mid-1;
+       }
+        mid=start+(end-start)/2;
     }
-    
-    vector<int> searchRange(vector<int>& numbers, int target) 
-    {
-       int firstIndex = first(numbers, 0, numbers.size() - 1, target); 
-       int secondIndex = second(numbers, 0, numbers.size() - 1, target);
-       return {firstIndex, secondIndex};
+    return {left,right};
     }
 };
