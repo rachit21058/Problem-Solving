@@ -1,0 +1,40 @@
+bool check(vector<int> &boards,int k,long long mid){
+       long long timesum=0;
+       int c=1;
+        for(int i=0;i<boards.size();i++){
+            if(boards[i]>mid){
+                return false;
+            }
+            if(boards[i]+timesum>mid){
+                c++;
+                timesum=boards[i];
+                if(c>k) return false;
+            }
+            else{
+                timesum+=boards[i];
+            }
+        }  
+        return true;
+   }
+
+int findLargestMinDistance(vector<int> &boards, int k)
+{
+    //    Write your code here.
+     long long st=0;
+        long long end=0;
+        for(int i=0;i<boards.size();i++){
+            end+=boards[i];
+        }
+        long long ans=-1;
+        while(st<=end){
+            long long mid=st+(end-st)/2;
+            if(check(boards,k,mid)){
+                ans=mid;
+                end=mid-1;
+            }
+            else{
+                st=mid+1;
+            }
+        }
+        return ans;
+}
