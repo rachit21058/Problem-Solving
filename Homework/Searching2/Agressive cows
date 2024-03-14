@@ -1,38 +1,36 @@
 class Solution {
 public:
-    bool isFeasible(int dist, int totalStalls, int cows, vector<int> &st)
+    bool check(vector<int> &stalls, int k,int mid)
     {
-        int last = st[0];
-        int countCows = 1;
-        for(int i = 1; i < totalStalls; i++)
-        {
-            if(st[i] - last >= dist)
-            {
-                last = st[i];
-                countCows++;
+        int c=1;
+        int pos=stalls[0];
+        for(int i=1;i<stalls.size();i++){
+            if(stalls[i]-pos>=mid){
+                c++;
+                pos=stalls[i];
             }
+            if(c==k) return true;
         }
-        if(countCows >= cows)
-            return true;
-        return false; 
+        return false;
     }
     
-    int solve(int totalStalls, int cows, vector<int> &st) 
+    int solve(int n, int k, vector<int> &stalls) 
     {
-        sort(st.begin(), st.end());
-        int ans = -1;
-        int left = 1, right = st[totalStalls - 1] - st[0];
-        while(left <= right)
-        {
-            int mid = left + (right - left) / 2;
-            if(isFeasible(mid, totalStalls, cows, st))
-            {
-                ans = mid;
-                left = mid + 1;
+        sort(stalls.begin(), stalls.end());
+        int st=0;
+        int end=stalls[stalls.size()-1]-stalls[0];
+        int ans=-1;
+        while(st<=end){
+            int mid=(st+end)/2;
+            if(check(stalls,k,mid)){
+                ans=mid;
+                st=mid+1;
             }
-            else
-                right = mid - 1;
+            else{
+                end=mid-1;
+            }
         }
-        return ans;
-    }
+            return ans;
+        }
+        
 };
