@@ -1,0 +1,45 @@
+int upperBound(int arr[], int x, int n)
+{
+    int start = 0, end = n - 1;
+    while (start <= end)
+    {
+        int mid = start + (end - start) / 2;
+        if (arr[mid] < x)
+            start = mid + 1;
+        else
+            end = mid - 1;
+    }
+    return end + 1;
+}
+
+int check(int mat[MAX][MAX], int num, int n)
+{
+    int s = 0;
+    for (int i = 0; i < n; i++)
+    {
+        s += upperBound(mat[i], num, n);
+    }
+    return s;
+}
+
+int kthSmallest(int mat[MAX][MAX], int n, int k)
+{
+    int start = INT_MAX;
+    int end = INT_MIN;
+    for (int i = 0; i < n; i++)
+    {
+        if (mat[i][0] < start)
+            start = mat[i][0];
+        if (mat[i][n - 1] > end)
+            end = mat[i][n - 1];
+    }
+    while (start <= end)
+    {
+        int mid = start + (end - start) / 2;
+        if (check(mat, mid, n) >= k)
+            end = mid - 1;
+        else
+            start = mid + 1;
+    }
+    return end;
+}
