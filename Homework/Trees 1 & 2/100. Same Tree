@@ -1,0 +1,19 @@
+class Solution {
+public:
+   bool check(TreeNode *t1, TreeNode *t2)
+    {
+        if(t1==nullptr && t2==nullptr)
+         return true;
+        if((t1!=nullptr && t2==nullptr) || (t1==nullptr && t2!=nullptr) || (t1->val!=t2->val))
+         return false;
+        if(!check(t1->left,t2->left))
+         return false;
+        if(!check(t1->right,t2->right))
+         return false;
+        return true;     
+    }
+    bool isSameTree(TreeNode* p, TreeNode* q) 
+    {
+       return check(p,q);
+    }
+};
