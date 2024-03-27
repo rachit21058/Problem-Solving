@@ -1,0 +1,20 @@
+class Solution {
+public:
+    int findheight(TreeNode *node, int &d)
+    {
+        if(node==nullptr)
+         return 0;
+        int left=findheight(node->left, d);
+        int right=findheight(node->right, d);
+        d=max(d, left+right);
+        return 1+max(left,right);
+    }
+    int diameterOfBinaryTree(TreeNode* root) 
+    {
+       if(!root)
+        return 0;
+       int d=0;
+       findheight(root, d);
+       return d; 
+    }
+};
