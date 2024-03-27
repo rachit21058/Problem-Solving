@@ -1,0 +1,30 @@
+class Solution {
+public:
+    int height(TreeNode* root)
+    {
+      if(root==nullptr)
+       return 0;
+      return 1+max(height(root->left), height(root->right)); 
+    }
+    void preorder(TreeNode *root, int H, int lev, vector<int> &v, vector<bool> &ans)
+    {
+       if(root==nullptr)
+        return;
+       if (ans[lev] == false) {
+         v.push_back(root->val);
+         ans[lev]=true;
+        }
+       preorder(root->right,H, lev+1, v,ans);
+       preorder(root->left,H, lev+1, v, ans);
+    }
+    vector<int> rightSideView(TreeNode* root) 
+    {
+      vector<int> v;
+      if(root==nullptr)
+       return v;
+      int h=height(root);
+      vector<bool> ans(h+1,false);
+      preorder(root, h, 1, v, ans);
+      return v; 
+    }
+};
