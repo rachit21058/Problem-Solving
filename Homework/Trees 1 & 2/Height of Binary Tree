@@ -1,0 +1,8 @@
+int heightOfBinaryTree(TreeNode<int> *root)
+{
+ if(root==NULL)
+     return 0;
+    int a=heightOfBinaryTree(root->left);
+    int b=heightOfBinaryTree(root->right);
+    return 1+max(a,b); 
+}
