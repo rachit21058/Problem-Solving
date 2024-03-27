@@ -1,0 +1,23 @@
+class Solution {
+public:
+    void preorder(TreeNode *root, string s, vector<string> &v)
+    {
+        if(root==nullptr)
+         return;
+        if(root->left==nullptr && root->right==nullptr)
+        {
+            s+=to_string(root->val);
+            v.push_back(s);
+            return;
+        }
+        preorder(root->left, s+(to_string(root->val)+"->"), v);
+        preorder(root->right, s+(to_string(root->val)+"->"), v);
+    }
+    vector<string> binaryTreePaths(TreeNode* root) 
+    {
+       string s="";
+       vector<string> v;
+       preorder(root,s,v);
+       return v;  
+    }
+};
