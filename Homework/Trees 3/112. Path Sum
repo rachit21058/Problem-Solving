@@ -1,0 +1,15 @@
+class Solution {
+public:
+    bool preorder(TreeNode *root, int sum)
+    {
+        if(root==nullptr)
+         return false;
+        if(root->left==nullptr && root->right==nullptr && sum==root->val)
+        return true;
+        return (preorder(root->left,sum-root->val) || preorder(root->right,sum-root->val)); 
+    }
+    bool hasPathSum(TreeNode* root, int targetSum) 
+    {
+        return preorder(root,targetSum);
+    }
+};
