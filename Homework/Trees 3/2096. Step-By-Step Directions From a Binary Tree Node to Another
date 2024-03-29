@@ -1,0 +1,42 @@
+class Solution {
+public:
+   void down(TreeNode *node, string &p, string &s, string &e, int start, int end)
+    {
+       if(node==nullptr)
+        return;
+       if(node->val==start)
+        s=p;
+       if(node->val==end)
+        e=p; 
+       p.push_back('L');
+       down(node->left,p,s,e, start, end);
+       p.pop_back();
+       p.push_back('R');
+       down(node->right,p,s,e, start, end);
+       p.pop_back();  
+    }
+    TreeNode *lca(TreeNode *root, int p, int q)
+    {
+        if(root==nullptr || root->val==p || root->val==q)
+         return root;
+        TreeNode *left=lca(root->left, p,q);
+        TreeNode *right=lca(root->right,p,q);
+        if(left==nullptr)
+         return right;
+        if(right==nullptr)
+         return left;
+        return root;  
+    }
+    string getDirections(TreeNode* root, int startValue, int destValue) 
+    {
+       TreeNode *ancestor=lca(root, startValue, destValue);
+       string r;
+       string rs;
+       string rd;
+       down(ancestor, r, rs, rd, startValue, destValue);
+       for(int i=0;i<rs.length();i++)
+         rs[i]='U';
+       string a=rs+ rd;  
+       return a; 
+    }
+};
