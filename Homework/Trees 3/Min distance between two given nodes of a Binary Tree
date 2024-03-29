@@ -1,0 +1,35 @@
+class Solution{
+    public:
+    int dist(Node *node, int solve, int level)
+    {
+        if(node==nullptr)
+         return 0;
+        if(node->data==solve)
+         return level;
+        int left=dist(node->left, solve, level+1);
+        int right=dist(node->right, solve, level+1);
+        return left+right;
+    }
+    Node* lca(Node *root, int m, int n)
+    {
+        if(root==nullptr || root->data==m || root->data==n)
+         return root;
+        Node* left=lca(root->left,m,n);
+        Node* right=lca(root->right,m,n);
+        if(left==nullptr)
+         return right;
+        if(right==nullptr)
+         return left;
+        return root;
+    }
+    
+    int findDist(Node* root, int a, int b) 
+    {
+        Node* ancestor=lca(root,a,b);
+        if(ancestor->data==a) 
+         return dist(ancestor,b,0);
+        else if(ancestor->data==b)
+         return dist(ancestor,a,0);
+        return dist(ancestor,a,0)+dist(ancestor,b,0); 
+    }
+};
