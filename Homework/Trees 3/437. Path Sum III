@@ -1,0 +1,15 @@
+class Solution {
+public:
+    long long solve(TreeNode *node,long long targetSum)
+    {
+       if(node==nullptr)
+        return 0;
+       return (targetSum==node->val)+solve(node->left, targetSum-node->val)+solve(node->right, targetSum-node->val);  
+    }
+    int pathSum(TreeNode* root, int targetSum) 
+    {
+       if(root==nullptr)
+        return 0;
+       return solve(root, targetSum)+ pathSum(root->left, targetSum)+pathSum(root->right, targetSum);  
+    }
+};
