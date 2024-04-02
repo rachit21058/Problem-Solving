@@ -1,0 +1,22 @@
+int ceil(Node* root,int input,int a)
+{
+    if(!root)
+    {
+        return a;
+    } 
+    if(root->data>=input){
+    a=root->data;
+    ceil(root->left,input,a);
+    }
+    else
+    {
+    ceil(root->right,input,a);
+    }
+}
+int findCeil(Node* root, int input) {
+    if (root == NULL) 
+    return -1;
+    int a=-1;
+    return ceil(root,input,a);
+    
+}
