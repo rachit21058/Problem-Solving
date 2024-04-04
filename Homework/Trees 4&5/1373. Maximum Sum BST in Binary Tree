@@ -1,0 +1,29 @@
+class Solution { 
+public:
+    int res=0; 
+    int solve(TreeNode* root)
+    {
+        if(!root)
+        return 0;
+        int sum=root->val + solve(root->left) + solve(root->right);
+        return sum;
+    }
+    bool isBst(TreeNode* root,int mini,int maxi)
+    {
+        if(!root)
+        return 1;
+        if(root->val<=mini || root->val>=maxi)
+        return 0;
+        return isBst(root->left,mini,root->val) && isBst(root->right,root->val,maxi);
+    }
+    int maxSumBST(TreeNode* root){
+        
+        if(!root)
+        return 0;
+        if(isBst(root,INT_MIN,INT_MAX)){
+        res= max(res,max(0,solve(root))); } 
+        maxSumBST(root->left);
+        maxSumBST(root->right);
+        return res; 
+    }
+};
