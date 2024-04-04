@@ -1,0 +1,30 @@
+class Solution{
+    public:
+    int size(Node* root)
+    {
+        if(!root)return 0;
+        int s=size(root->left)+size(root->right)+1;
+        return s;
+    }
+    bool bst(Node* root,int min,int max)
+    {
+        if(!root)
+        return 1;
+        if(root->data<=min || root->data>=max)
+        return 0;
+        int f=bst(root->left,min,root->data) && bst(root->right,root->data,max);
+        return f;
+        
+    }
+   
+    int largestBst(Node *root)
+    {
+        //Your code here
+        if(bst(root,INT_MIN,INT_MAX))
+        {
+            return size(root);
+        }
+        int largest=max(largestBst(root->left),largestBst(root->right));
+        return largest;
+    }
+};
