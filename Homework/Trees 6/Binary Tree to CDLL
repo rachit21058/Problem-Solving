@@ -1,0 +1,31 @@
+class Solution
+{
+  public:
+    void cdll(Node *root, Node * &head, Node *&temp)
+    {
+        if(root==nullptr)
+         return;
+        cdll(root->left, head, temp);
+        if(head==nullptr)
+         head=root;
+        else
+        {
+            root->left=temp;
+            temp->right=root;
+        }
+        temp=root;
+        cdll(root->right, head,temp);
+    }
+    Node *bTreeToCList(Node *root)
+    {
+       Node *temp=nullptr;
+       Node *head=nullptr;
+       cdll(root, head, temp);
+       if(temp!=nullptr)
+       {
+       temp->right=head;
+       head->left=temp;
+       }
+       return head;
+    }
+};
