@@ -1,0 +1,26 @@
+class Solution {
+public:
+    TreeNode* bst(vector<int>& ans,int l,int h)
+    {
+         int mid=(l+h)/2;
+         if(l>h)
+         {
+            return 0;
+         } 
+            TreeNode* node=new TreeNode;
+            node->val=ans[mid];
+            node->left=bst(ans,l,mid-1);
+            node->right=bst(ans,mid+1,h);
+         
+            return node;
+    }
+    TreeNode* sortedListToBST(ListNode* head) {
+        vector<int> ans;
+        while(head)
+        {
+        ans.push_back(head->val);
+        head=head->next;
+        }
+        return bst(ans,0,ans.size()-1);
+    }
+};
