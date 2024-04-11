@@ -1,0 +1,55 @@
+class Solution {
+public:
+    struct TrieNode
+    {
+        struct TrieNode *child[26];
+        bool isEnd;
+        int count;
+        TrieNode()
+        {
+            for(int i=0;i<26;i++)
+            child[i]=NULL;
+            isEnd=false;
+            count =0;
+        }
+    };
+
+    void insert(TrieNode* root,string st)
+    {
+        TrieNode* newnode=root; 
+        for(int i=0;i<st.size();i++)
+        {
+            int temp=st[i]-'a'; 
+            if(!newnode->child[temp])
+            {
+                newnode->child[temp]=new TrieNode();
+            }
+            newnode->child[temp]->count+=1;
+            newnode=newnode->child[temp];
+        }
+        newnode->isEnd=true;
+    }
+    int search(TrieNode* root,string st)
+    {
+        int count=0;
+        TrieNode *newnode=root;
+        for(int i=0;i<st.size();i++)
+        {
+            int temp=st[i]-'a';
+            if(!newnode->child[temp])
+            return count;
+            count+=newnode->child[temp]->count;
+            newnode=newnode->child[temp];
+        }
+        return count;
+    }
+    vector<int> sumPrefixScores(vector<string>& words) {
+        vector<int> v;
+        TrieNode* root=new TrieNode();
+        for(int i=0;i<words.size();i++)
+        insert(root,words[i]);
+        for(int i=0;i<words.size();i++)
+        v.push_back(search(root,words[i]));
+        return v;
+    }
+};
