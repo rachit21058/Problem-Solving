@@ -1,0 +1,62 @@
+class TrieNode{
+    public:
+     TrieNode *child[26];
+     bool islast;
+     TrieNode(){
+        for(int i=0;i<26;i++)
+             child[i]=nullptr;
+        islast=false; 
+    }
+};
+
+class Trie{
+    public: 
+    TrieNode *root;
+    Trie(){
+         root=new TrieNode();
+     }
+    string check(string st){
+        TrieNode *newnode=root;
+        string s="";
+        for(int i=0;i<st.length();i++){
+            char ch=st[i];
+            if(newnode->islast)
+                return s;
+            else if(newnode->child[ch-'a']!=nullptr)
+                s+=st[i];
+            else if(newnode->child[ch-'a']==nullptr && newnode->islast==false)
+                return st;
+            newnode=newnode->child[ch-'a'];
+        }
+        return s;
+    }
+    void insert(string word){
+        TrieNode *newnode=root;
+        for(int i=0;i<word.length();i++){
+            char ch=word[i];
+            if(newnode->child[ch-'a']==nullptr){
+                newnode->child[ch-'a']=new TrieNode();
+            }
+            newnode=newnode->child[ch-'a'];
+        }
+        newnode->islast=true;
+    }
+    
+};
+class Solution {
+public:
+    string replaceWords(vector<string>& dictionary, string sentence) {
+        Trie *root=new Trie();
+        for(int i=0;i<dictionary.size();i++){
+            root->insert(dictionary[i]);
+        }
+        string st="";
+        istringstream s(sentence);
+        string scan;
+        while(s>>scan){
+            st+=root->check(scan)+" ";
+        }
+        st.pop_back();
+        return st;
+    }
+};
