@@ -1,0 +1,28 @@
+int path(int s, vector<int> adj[], int &res){
+  int maxi=INT_MIN;
+  for(auto it:adj[s]){
+     int h=path(it,adj,res);
+     res=max(res,maxi+h);
+     maxi=max(maxi,h);
+  }
+  int ans=1+maxi;
+  return ans;
+}
+int Solution::solve(vector<int> &A) 
+{
+  int n=A.size();
+  vector<int> adj[n];
+  int temp;
+  for(int i=0;i<A.size();i++){
+     if(A[i]==-1){
+      temp=i;
+      continue;
+     }
+     else{
+         adj[A[i]].push_back(i);
+     } 
+  }
+  int res=0;
+  path(temp,adj,res);
+  return res;
+}
