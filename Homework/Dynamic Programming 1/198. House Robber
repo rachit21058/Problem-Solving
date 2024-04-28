@@ -1,0 +1,34 @@
+class Solution {
+public:
+//  int solveusingrecursion(vector<int>& nums,int index){
+//     if(index>=nums.size()){
+//         return 0;
+//     }
+//     int include=nums[index]+solveusingrecursion(nums,index+2);
+//     int exclude=0+solveusingrecursion(nums,index+1);
+//     int maxi=max(include,exclude);
+//     return maxi;
+
+//  }
+int solveusingDP(vector<int>& nums,int index,vector<int>&dp){
+    if(index>=nums.size()){
+        return 0;
+    }
+    if(dp[index]!=-1){
+        return dp[index];
+    }
+    int include=nums[index]+solveusingDP(nums,index+2,dp);
+    int exclude=0+solveusingDP(nums,index+1,dp);
+    dp[index]=max(include,exclude);
+    return dp[index];
+
+ }
+    int rob(vector<int>& nums) {
+        int index=0;
+        // int ans=solveusingrecursion(nums,index);
+        int n=nums.size();
+        vector<int>dp(n+1,-1);
+        int ans=solveusingDP(nums,index,dp);
+        return ans;
+    }
+};
