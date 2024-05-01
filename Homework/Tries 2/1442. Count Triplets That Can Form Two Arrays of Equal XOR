@@ -1,0 +1,49 @@
+class Trie{
+public:
+   vector<int> v;
+   Trie* child[2];
+   Trie(){
+      for(int i=0;i<2;i++)
+         child[i] = nullptr;
+   }
+};
+
+class Solution {
+public:
+   int count(int num,Trie* node,int index){        
+      for(int i=30;i>=0;i--){
+         int bits = (num>>i)&1;
+         if(node->child[bits] == NULL)
+            return 0;
+         node = node->child[bits];  
+      }
+      int cnt = 0;
+      for(auto i:node->v)
+         cnt += index-i;
+      return cnt;
+   }    
+  void insertnode(int num,Trie* node,int index){
+      for(int i=30;i>=0;i--){
+         int bits = (num>>i)&1;
+         if(node->child[bits] == NULL)
+            node->child[bits] = new Trie();
+         node = node->child[bits]; 
+      }
+      node->v.push_back(index+1);
+   }
+
+   int countTriplets(vector<int>& b) {      
+      int n = b.size();
+      vector<int> Xor(n+1,0); 
+      for(int i=1;i<(n+1);i++)
+         Xor[i] = Xor[i-1]^b[i-1];
+      Trie* root = new Trie();
+      insertnode(Xor[0],root,0);
+      int res = 0;      
+      for(int i=1;i<(n+1);i++){
+         res+= count(Xor[i],root,i); 
+         insertnode(Xor[i],root,i); 
+      }
+      return res;
+   }
+};
