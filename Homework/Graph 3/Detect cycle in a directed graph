@@ -1,0 +1,29 @@
+class Solution {
+  public:
+    bool dfs(vector<int> adj[], vector<int> &path, int source,vector<int> &v){
+      v[source]=1;
+      path[source]=1;
+      for(auto it:adj[source]){
+          if(!v[it]){
+              if(dfs(adj,path,it,v))
+               return true;
+          }
+          else if(path[it] && v[it])
+            return true;
+      }
+      path[source]=0;
+      return false;
+    }
+    bool isCyclic(int V, vector<int> adj[]) 
+    {
+       vector<int> path(V,0);
+       vector<int> v(V,0);
+       for(int i=0;i<V;i++){
+           if(!v[i]){
+             if(dfs(adj,path,i,v))
+              return true;
+           }
+       }
+       return false;
+    }
+};
