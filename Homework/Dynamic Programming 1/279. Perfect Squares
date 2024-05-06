@@ -1,0 +1,29 @@
+class Solution {
+public:
+// int usingmemo(int n,vector<int>&dp){
+//     if(n<=0)
+//         return 0;
+//     if(dp[n]!=-1)
+//         return dp[n];
+//     int cnt=INT_MAX;
+//     for(int i=1;i*i<=n;i++){
+//         cnt=min(cnt,1+usingmemo(n-(i*i),dp));
+//     }
+//     return dp[n]=cnt;
+// }
+int numSquares(int n) {
+//    vector<int> dp(n+1,-1);
+//    int ans=usingmemo(n,dp);  
+//    return ans; 
+vector<int> dp(n+1,0);
+for(int it=1;it<=n;it++){
+int cnt=INT_MAX;
+for(int i=1;i*i<=n;i++){
+   if(it-(i*i)>=0)  
+    cnt=min(cnt,1+dp[it-(i*i)]);
+}
+ dp[it]=cnt;
+}
+return dp[n];
+}
+};
