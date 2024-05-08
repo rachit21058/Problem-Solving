@@ -1,0 +1,37 @@
+class Solution {
+public:
+    vector<int> minimumTime(int n, vector<vector<int>>& edges, vector<int>& disappear) {
+     unordered_map<int, vector<pair<int,int>>> vec;
+        for(auto& edge : edges){
+            int u = edge[0];
+            int v = edge[1];
+            int w = edge[2];
+            vec[u].push_back({v,w});
+            vec[v].push_back({u,w});             
+        }
+
+        vector<int> res(n, -1);
+        priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> pq;
+        pq.push({0, 0});
+
+        while (!pq.empty()) {
+            int distance = pq.top().first;
+            int temp = pq.top().second;
+            pq.pop();
+
+            if (res[temp] != -1 || distance>=disappear[temp])
+                continue;
+
+            res[temp] = distance;
+
+            for (auto& it :vec[temp]) {
+                int itnode = it.first;
+                int weigh = it.second;
+                if (distance+ weigh< disappear[itnode]) {
+                    pq.push({distance+ weigh,itnode});
+                }
+            }
+        }     
+        return res;   
+    }
+};
