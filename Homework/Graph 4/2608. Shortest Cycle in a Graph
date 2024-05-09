@@ -1,0 +1,60 @@
+class Solution {
+public:
+    void bfs(int &mini,int source,unordered_map<int,vector<int>> &m,int n,bool &f){
+        vector<int> p(n,-1);
+        set<pair<int,int>> st;
+        vector<bool> visited(n,false);
+        vector<int> dist(n,INT_MAX);
+        visited[source]=true;
+        p[source]=-1;
+        dist[source]=0;
+        st.insert({0,source});
+        while(!st.empty()){
+            auto top=st.begin();
+            pair<int,int> tP=*top;
+            int distance=tP.first;
+            int temp=tP.second;
+            
+            st.erase(st.begin());
+            
+            for(auto itt:m[temp]){
+                if(visited[itt]==true && itt!=p[temp]){
+                    f=true;
+                    mini=min(dist[itt]+dist[temp]+1,mini);
+                    
+                }
+                if(distance+1<dist[itt]){
+                    auto a=st.find({dist[itt],itt});
+                    if(a!=st.end()){
+                        st.erase(a);
+                    }
+                    
+                    dist[itt]=distance+1;
+                    st.insert({dist[itt],itt});
+                    visited[itt]=true;
+                    p[itt]=temp;
+                }
+            }
+            
+        }
+    }
+    int findShortestCycle(int n, vector<vector<int>>& edges) {
+        int mini=INT_MAX;
+        unordered_map<int,vector<int>> m;
+        for(auto it:edges){
+            int u=it[0];
+            int v=it[1];
+            m[u].push_back(v);
+            m[v].push_back(u);
+        }
+        bool f =false;
+        for(int i=0;i<n;i++){
+            bfs(mini,i,m,n,f);
+        }
+        
+        if(f==false){
+            return -1;
+        }
+        return mini;
+    }
+};
