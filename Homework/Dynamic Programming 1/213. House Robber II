@@ -1,0 +1,42 @@
+class Solution {
+public:
+    int solveusingmemo(vector<int> &nums, vector<int> &dp, int n ){
+    if(n>=nums.size()){
+        return 0;
+    }
+    if(dp[n]!=-1){
+        return dp[n];
+    }
+    int include=nums[n]+solveusingmemo(nums,dp,n+2);
+    int exclude= 0+solveusingmemo(nums, dp,n+1);
+
+    dp[n]= max(include,exclude);
+     return dp[n];
+}
+    int rob(vector<int>& nums) {
+        int n=0;
+        if(nums.size()==1){
+            return nums[0];
+        }
+        if(nums.size()==2){
+            return max(nums[0],nums[1]);
+        }
+        vector<int> v1,v2;
+        for(int i=0;i<nums.size();i++){
+            if(i!=0){
+                v1.push_back(nums[i]);
+            }
+        }
+        
+        for(int i=0;i<nums.size();i++){
+            if(i!=nums.size()-1){
+                v2.push_back(nums[i]);
+            }
+        }
+        vector<int> dp1(v1.size()+1,-1);
+        vector<int> dp2(v2.size()+1,-1);
+        int ans=solveusingmemo(v1,dp1,n);
+        int res=solveusingmemo(v2,dp2,n);
+        return max(ans,res);
+    }
+};
