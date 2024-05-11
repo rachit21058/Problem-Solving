@@ -1,0 +1,45 @@
+class Solution {
+public:
+    // int solveusingmemo(int n, int k, int target,vector<vector<int>> &dp){
+    //     if (target < 0) {
+    //         return 0;
+    //     }
+    //     if(target!=0 && n==0){
+    //         return 0;
+    //     }
+    //     if(n!=0 && target==0){
+    //         return 0;
+    //     }
+        
+    //     if(target==0 && n==0){
+    //         return 1;
+    //     }
+    //     if(dp[n][target]!=-1){
+    //        return dp[n][target]; 
+    //     }
+    //     int res=0;
+    //     for(int i=1;i<=k;i++){
+    //         res=(res+solveusingmemo(n-1,k,target-i,dp));
+    //         res=res%1000000007;
+    //     }
+    //     dp[n][target]=res;
+    //     return dp[n][target];
+    // }
+    int numRollsToTarget(int n, int k, int target) {
+        // vector<vector<int>> dp(n+1,vector<int>(target+1,-1));
+        // int res=solveusingmemo(n,k,target,dp);
+        // return res;
+    vector<vector<int>> dp(n+1,vector<int>(target+1,0));
+    dp[0][0] = 1;
+    for (int i=1;i<=n;i++) {
+        for (int j=1;j<=target;j++) {
+            dp[i][j] = 0;
+            for (int ii=1;ii<=k&&ii<=j;ii++){
+                dp[i][j] += dp[i-1][j-ii];
+                dp[i][j] %= 1000000007;
+                }
+            }
+        }
+        return dp[n][target];
+     }
+};
